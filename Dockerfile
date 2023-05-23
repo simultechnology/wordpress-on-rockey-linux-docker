@@ -4,7 +4,6 @@ FROM rockylinux:9
 # Install required dependencies
 RUN dnf update -y && dnf install -y \
     httpd \
-    mariadb \
     php \
     php-mysqlnd \
     php-gd \
@@ -13,7 +12,7 @@ RUN dnf update -y && dnf install -y \
 
 # Enable Apache modules
 RUN sed -i 's/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/' /etc/httpd/conf.modules.d/00-base.conf
-RUN sed -i 's/#LoadModule\ mysqli_module/LoadModule\ mysqli_module/' /etc/httpd/conf.modules.d/00-mysql.conf
+# RUN sed -i 's/#LoadModule\ mysqli_module/LoadModule\ mysqli_module/' /etc/httpd/conf.modules.d/00-mysql.conf
 
 # Download and extract WordPress
 RUN chown -R apache:apache /var/www/html/ && \
@@ -21,6 +20,10 @@ RUN chown -R apache:apache /var/www/html/ && \
 
 # Configure PHP
 RUN sed -i 's/;date.timezone\ =/date.timezone\ =\ UTC/' /etc/php.ini
+
+# Configure Apache to process PHP files
+RUN echo -e "<FilesMatch \.php$>\n\tSetHandler application/x-httpd-php\n</FilesMatch>" > /etc/httpd/conf.d/php.conf
+
 
 # Expose port 80 for web traffic
 EXPOSE 80
