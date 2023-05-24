@@ -3,6 +3,7 @@ version: "3.7"
 services:
   db:
     image: mysql:5.7
+    platform: linux/amd64
     volumes:
       - ./db_data:/var/lib/mysql
     restart: always
@@ -30,11 +31,9 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
     volumes:
       - ./html:/var/www/html
-    networks:
-      - backend
-
-networks:
-  backend:
+      - type: bind
+        source: ./share
+        target: /share
 
 volumes:
   db_data:
