@@ -30,11 +30,24 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
     volumes:
+      - ./conf_files/www.conf:/etc/php-fpm.d/www.conf
       - ./conf_files/httpd.conf:/etc/httpd/conf/httpd.conf
+      - ./conf_files/php.ini:/etc/php.ini
       - ./html:/var/www/html
+      - type: bind
+        source: ./log/httpd
+        target: /var/log/httpd
       - type: bind
         source: ./share
         target: /share
+
+  mailhog:
+    image: mailhog/mailhog
+    platform: linux/amd64
+    restart: always
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
   db_data:
