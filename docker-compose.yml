@@ -2,8 +2,7 @@ version: "3.7"
 
 services:
   db:
-    image: mysql:5.7
-    platform: linux/amd64
+    image: mysql:8.0
     volumes:
       - ./db_data:/var/lib/mysql
     restart: always
@@ -42,8 +41,7 @@ services:
         target: /share
 
   mailhog:
-    image: mailhog/mailhog
-    platform: linux/amd64
+    image: jcalonso/mailhog
     restart: always
     ports:
       - "8025:8025"
