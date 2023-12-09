@@ -5,7 +5,7 @@ services:
     image: mysql:8.0
     volumes:
       - ./db_data:/var/lib/mysql
-    restart: always
+    restart: no
     ports:
       - "43306:3306"
     environment:
@@ -21,7 +21,7 @@ services:
     image: wordpress-on-rocky
     container_name: wordpress-on-rocky
     privileged: true
-    restart: always
+    restart: no
     ports:
       - "44080:80"
     environment:
@@ -42,7 +42,7 @@ services:
 
   mailhog:
     image: jcalonso/mailhog
-    restart: always
+    restart: no
     ports:
       - "8025:8025"
       - "1025:1025"
